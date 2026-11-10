@@ -1,0 +1,75 @@
+$kind: collection
+description: |-
+  # Vehicle Service Collection
+
+  The **Vehicle Service API** provides a RESTful interface for managing a fleet of vehicles. Use this collection to create, retrieve, update, and delete vehicle records stored in the service.
+
+  ## Base URL
+
+  All requests in this collection use the `{{baseUrl}}` variable, which is resolved from the active **Mock Environment**:
+
+  ```
+  https://29b47815-52f9-493f-abaa-303df6087d3c.mock.pstmn.io
+
+   ```
+
+  Make sure the **Mock Environment** is selected in Postman before sending any requests.
+
+  ## Authentication
+
+  This API uses **API Key** authentication. The API key is stored securely in the Postman **Vault** under the key `apiKey` (`vault:apiKey`).
+
+  To authenticate successfully:
+
+  1. Ensure your API key has been added to the Postman Vault under the key name `apiKey`.
+      
+  2. The key is automatically referenced by requests in this collection — no manual header configuration is required per request.
+      
+
+  > **Note:** Vault variables are encrypted and never synced to the cloud, keeping your credentials secure. 
+    
+
+  ## Endpoints
+
+  | Method | Endpoint | Description |
+  | --- | --- | --- |
+  | `POST` | `/vehicles` | Create a new vehicle record |
+  | `GET` | `/vehicles` | Retrieve a list of all vehicles |
+  | `GET` | `/vehicles/:id` | Retrieve a single vehicle by ID |
+  | `PATCH` | `/vehicles/:id` | Update an existing vehicle record |
+  | `DELETE` | `/vehicles/:id` | Delete a vehicle record |
+
+  ## Vehicle Object
+
+  A vehicle record contains the following fields:
+
+  | Field | Type | Required | Description |
+  | --- | --- | --- | --- |
+  | `nickName` | string | No | A friendly name for the vehicle |
+  | `vin` | string | Yes | Vehicle Identification Number (17 characters) |
+  | `make` | string | Yes | Manufacturer (e.g. Ford, Toyota) |
+  | `model` | string | Yes | Model name (e.g. Mustang, Camry) |
+  | `year` | string | Yes | Model year (e.g. "2023") |
+  | `miles` | number | Yes | Current odometer reading in miles |
+
+  ## Response Codes
+
+  | Code | Meaning |
+  | --- | --- |
+  | `200` | Success — request completed, data returned |
+  | `201` | Created — new vehicle successfully created |
+  | `204` | No Content — vehicle deleted successfully |
+  | `400` | Bad Request — missing or invalid fields in the request body |
+  | `404` | Not Found — no vehicle found with the given ID |
+  | `409` | Conflict — a vehicle with the same VIN already exists |
+  | `500` | Unexpected Server Error |
+
+  ---
+variables:
+  baseUrl: "{{baseUrl}}"
+auth:
+  - id: b7327dbc-d764-4d26-8e95-bbe89933f43b
+    type: apikey
+    name: apikey auth
+    credentials:
+      key: X-API-Key

@@ -1,0 +1,81 @@
+$kind: http-request
+description: |-
+  Updates one or more fields on an existing vehicle record. Only the fields included in the request body will be modified.
+
+  **Path Parameters:**
+  | Parameter | Type | Required | Description |
+  |-----------|------|----------|-------------|
+  | `id` | string | Yes | The unique ID of the vehicle to update |
+
+  **Request Body (JSON) — all fields optional:**
+  | Field | Type | Description |
+  |-------|------|-------------|
+  | `nickName` | string | Updated friendly name |
+  | `vin` | string | Updated VIN |
+  | `make` | string | Updated manufacturer |
+  | `model` | string | Updated model name |
+  | `year` | string | Updated model year |
+  | `miles` | number | Updated odometer reading |
+
+  **Responses:**
+  - `200 - Success` — Returns the updated vehicle object
+  - `400 - Bad request body` — The request body contains invalid data
+  - `500 - Unexpected error` — Server-side error
+url: "{{baseUrl}}/vehicles/:id"
+method: PATCH
+headers:
+  Content-Type: application/json
+  Accept: application/json
+pathVariables:
+  - key: id
+    value: "1"
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: json
+  content: |-
+    {
+      "nickName": "The Lisa Marie",
+      "vin": "4M2DV11W4RDJ53329",
+      "make": "Mercury",
+      "model": "Villager",
+      "year": "1994",
+      "miles": 159999
+    }
+  $type: |-
+    {
+      "type": "object",
+      "properties": {
+        "nickName": {
+          "type": "string"
+        },
+        "vin": {
+          "type": "string"
+        },
+        "make": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "year": {
+          "type": "string"
+        },
+        "miles": {
+          "type": "integer"
+        }
+      }
+    }
+settings: {}
+examples: ./.resources/Update a vehicle.resources/examples
+order: 3000

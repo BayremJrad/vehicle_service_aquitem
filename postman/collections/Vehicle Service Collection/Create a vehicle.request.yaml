@@ -1,0 +1,70 @@
+$kind: http-request
+description: |-
+  Creates a new vehicle record in the system.
+
+  **Required fields:** `vin`, `make`, `model`, `year`, `miles`
+
+  **Request Body (JSON):**
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | `nickName` | string | No | A friendly name for the vehicle |
+  | `vin` | string | Yes | 17-character Vehicle Identification Number |
+  | `make` | string | Yes | Manufacturer name (e.g. Mercury, Ford) |
+  | `model` | string | Yes | Model name (e.g. Villager, Mustang) |
+  | `year` | string | Yes | 4-digit model year |
+  | `miles` | number | Yes | Current odometer reading in miles |
+
+  **Responses:**
+  - `201 - Success` — Vehicle created successfully
+  - `400 - Missing required attribute` — One or more required fields are absent
+  - `409 - Vehicle already exists` — A vehicle with the same VIN is already registered
+  - `500 - Unexpected error` — Server-side error
+url: "{{baseUrl}}/vehicles"
+method: POST
+headers:
+  - key: x-mock-response-name
+    value: 400 - Missing required attribute
+    disabled: true
+    $type: string
+  - key: Content-Type
+    value: application/json
+  - key: Accept
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "nickName": "Bayrem's car",
+      "vin": "4M2DV11W4RDJ53310",
+      "make": "Mercury",
+      "model": "Villager",
+      "year": "1994",
+      "miles": 159864
+    }
+  $type: |-
+    {
+      "type": "object",
+      "properties": {
+        "nickName": {
+          "type": "string"
+        },
+        "vin": {
+          "type": "string"
+        },
+        "make": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "year": {
+          "type": "string"
+        },
+        "miles": {
+          "type": "integer"
+        }
+      }
+    }
+settings: {}
+examples: ./.resources/Create a vehicle.resources/examples
+order: 1000
