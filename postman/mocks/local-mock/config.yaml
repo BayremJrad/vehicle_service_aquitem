@@ -1,0 +1,15 @@
+id: 01a1c60d-0bce-757b-a9d0-d8ceadd691de
+version: 1
+name: Vehicle Service Mock (Stateful)
+slug: new-mock-b37ab
+enableSession: true
+protocol: http
+port: 4500
+autoRestartOnChange: true
+logging:
+  level: verbose
+  showBody: true
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true

@@ -34,8 +34,8 @@ body:
   type: json
   content: |-
     {
-      "nickName": "The Lisa Marie",
-      "vin": "4M2DV11W4RDJ53329",
+      "nickName": "Bayrem's car",
+      "vin": "4M2DV11W4RDJ53310",
       "make": "Mercury",
       "model": "Villager",
       "year": "1994",

@@ -14,7 +14,7 @@ body:
   content: |-
     {
       "nickName": "The Lisa Marie",
-      "vin": "4M2DV11W4RDJ53329",
+      "vin": "4M2DV11W4RDJ54333",
       "make": "Mercury",
       "model": "Villager",
       "year": "1994",
@@ -44,6 +44,25 @@ body:
         }
       }
     }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("VIN is a string", function () {
+          var jsonData = pm.response.json();
+          pm.expect(jsonData.vin).to.be.a.string;
+      });
+
+      pm.test("Status code is 201", function () {
+          pm.response.to.have.status(201);
+      });
+
+      pm.test("Response has required fields", function () {
+          var jsonData = pm.response.json();
+          pm.expect(jsonData).to.have.property("id");
+          pm.expect(jsonData).to.have.property("nickName");
+          pm.expect(jsonData).to.have.property("vin");
+      });
+    language: text/javascript
 settings: {}
 examples: ./.resources/Create a vehicle.resources/examples
 order: 3000

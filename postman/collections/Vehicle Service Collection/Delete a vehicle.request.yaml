@@ -18,7 +18,8 @@ headers:
   Accept: application/json
 pathVariables:
   - key: id
-    value: "1"
+    value: "3"
+    description: ""
     $type: |-
       {
         "type": "object",

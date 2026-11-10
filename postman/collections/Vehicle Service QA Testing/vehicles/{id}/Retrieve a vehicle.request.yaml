@@ -19,5 +19,97 @@ pathVariables:
         ]
       }
 settings: {}
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      // ── Contract Tests: Retrieve a vehicle ──────────────────────────────────
+
+      const res = pm.response.json();
+
+      // 1. Status code
+      pm.test("Status code is 200", () => {
+        pm.response.to.have.status(200);
+      });
+
+      // 2. Content-Type header
+      pm.test("Content-Type is application/json", () => {
+        pm.expect(pm.response.headers.get("Content-Type")).to.include("application/json");
+      });
+
+      // 3. Response body is an object (not an array)
+      pm.test("Response body is an object", () => {
+        pm.expect(res).to.be.an("object").and.not.an("array");
+      });
+
+      // 4. Required fields are present
+      const requiredFields = ["id", "nickName", "vin", "make", "model", "year", "miles"];
+      requiredFields.forEach(field => {
+        pm.test(`Response contains required field: ${field}`, () => {
+          pm.expect(res).to.have.property(field);
+        });
+      });
+
+      // 5. Field type validation
+      pm.test("id is a number", () => {
+        pm.expect(res.id).to.be.a("number");
+      });
+
+      pm.test("nickName is a string", () => {
+        pm.expect(res.nickName).to.be.a("string").and.not.empty;
+      });
+
+      pm.test("vin is a string", () => {
+        pm.expect(res.vin).to.be.a("string").and.not.empty;
+      });
+
+      pm.test("make is a string", () => {
+        pm.expect(res.make).to.be.a("string").and.not.empty;
+      });
+
+      pm.test("model is a string", () => {
+        pm.expect(res.model).to.be.a("string").and.not.empty;
+      });
+
+      pm.test("year is a string", () => {
+        pm.expect(res.year).to.be.a("string").and.not.empty;
+      });
+
+      pm.test("miles is a number", () => {
+        pm.expect(res.miles).to.be.a("number");
+      });
+
+      // 6. Value constraint validation
+      pm.test("id is a positive integer", () => {
+        pm.expect(res.id).to.be.above(0);
+        pm.expect(Number.isInteger(res.id)).to.be.true;
+      });
+
+      pm.test("vin is exactly 17 characters", () => {
+        pm.expect(res.vin).to.have.lengthOf(17);
+      });
+
+      pm.test("year is a 4-digit year string", () => {
+        pm.expect(res.year).to.match(/^\d{4}$/);
+      });
+
+      pm.test("miles is a non-negative number", () => {
+        pm.expect(res.miles).to.be.at.least(0);
+      });
+
+      // 7. No extra unexpected fields
+      pm.test("Response contains no unexpected fields", () => {
+        const allowedFields = new Set(["id", "nickName", "vin", "make", "model", "year", "miles"]);
+        const actualFields = Object.keys(res);
+        actualFields.forEach(field => {
+          pm.expect(allowedFields.has(field), `Unexpected field: ${field}`).to.be.true;
+        });
+      });
+
+      // 8. id matches the requested path variable
+      pm.test("Returned id matches the requested :id path variable", () => {
+        const requestedId = parseInt(pm.request.url.variables.get("id"), 10);
+        pm.expect(res.id).to.eql(requestedId);
+      });
 examples: ./.resources/Retrieve a vehicle.resources/examples
 order: 1000
