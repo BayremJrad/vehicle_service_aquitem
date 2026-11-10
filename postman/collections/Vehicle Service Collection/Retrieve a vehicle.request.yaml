@@ -1,0 +1,35 @@
+$kind: http-request
+description: |-
+  Retrieves a single vehicle record by its unique identifier.
+
+  **Path Parameters:**
+  | Parameter | Type | Required | Description |
+  |-----------|------|----------|-------------|
+  | `id` | string | Yes | The unique ID of the vehicle to retrieve |
+
+  **Responses:**
+  - `200 - Success` — Returns the vehicle object
+  - `404 - Not found` — No vehicle exists with the given ID
+  - `500 - Unexpected error` — Server-side error
+url: "{{baseUrl}}/vehicles/:id"
+method: GET
+headers:
+  Accept: application/json
+pathVariables:
+  - key: id
+    value: "1"
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+settings: {}
+examples: ./.resources/Retrieve a vehicle.resources/examples
+order: 2000
